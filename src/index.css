@@ -1,0 +1,199 @@
+@import "tailwindcss";
+
+:root {
+  /* Colors */
+  --color-primary: #6C1D5F;
+  --color-secondary: #01AC9F;
+  --color-neutral: #6B7280;
+  --color-accent: #FF6200;
+  
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F8FC;
+  
+  --text-main: #111827;
+  --text-muted: #6B7280;
+
+  /* Typography Scale */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px - Small Text */
+  --text-lg: 1.125rem;    /* 18px - Body */
+  --text-xl: 1.75rem;     /* 28px - Card Title */
+  --text-2xl: 3rem;       /* 48px - Section Title */
+  --text-3xl: 4rem;       /* 64px - Hero Title */
+
+  /* Border Radius */
+  --radius-sm: 16px;      /* Buttons, Inputs */
+  --radius-md: 18px;      /* FAQ */
+  --radius-lg: 24px;      /* Cards */
+  --radius-full: 9999px;  /* Badges */
+
+  /* Shadows */
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 12px 35px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.12);
+
+  /* Spacing / Layout */
+  --spacing-section: 100px;
+  --spacing-hero: 120px;
+  --spacing-footer: 70px;
+  --grid-gap: 32px;
+
+  /* Transitions */
+  --transition-default: 300ms ease;
+}
+
+@theme {
+  /* Colors */
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
+  --color-neutral: var(--color-neutral);
+  --color-accent: var(--color-accent);
+  
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+
+  /* Border Radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-full: var(--radius-full);
+
+  /* Shadows */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+@layer base {
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--text-main);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  /* Reusable Component Classes */
+  
+  .section-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+    width: 100%;
+  }
+
+  .section-padding {
+    padding-top: var(--spacing-section);
+    padding-bottom: var(--spacing-section);
+  }
+
+  .section-label {
+    color: var(--color-primary);
+    text-transform: uppercase;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 40px;
+    display: block;
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    margin-bottom: 18px;
+  }
+
+  .section-subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-bottom: 64px;
+    max-w: 800px;
+  }
+
+  .card-base {
+    background: #FFFFFF;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-default);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-base:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-8px);
+    border-color: rgba(0,0,0,0.1);
+  }
+
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--radius-sm);
+    padding: 16px 32px;
+    font-size: var(--text-base);
+    font-weight: 600;
+    transition: all var(--transition-default);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-primary:hover {
+    background-color: #55144A; /* Darker primary */
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-secondary {
+    background-color: white;
+    color: var(--text-main);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--radius-sm);
+    padding: 16px 32px;
+    font-size: var(--text-base);
+    font-weight: 600;
+    transition: all var(--transition-default);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--bg-secondary);
+    border-color: rgba(0,0,0,0.2);
+  }
+
+  .input-base {
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    font-size: var(--text-base);
+    width: 100%;
+    transition: all var(--transition-default);
+    outline: none;
+  }
+
+  .input-base:focus {
+    background-color: white;
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+  }
+}
