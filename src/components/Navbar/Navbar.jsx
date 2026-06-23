@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-scroll';
+import { Link as ScrollLink } from 'react-scroll';
+import { useNavigate } from 'react-router-dom';
 import { BookOpen, Menu, X } from 'lucide-react';
 import { BRANDING } from '../../utils/constants';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +9,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,7 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link
+            <ScrollLink
               key={link.to}
               to={link.to}
               smooth={true}
@@ -80,13 +82,15 @@ const Navbar = () => {
             >
               <span className="group-hover:text-[var(--color-primary)] transition-colors">{link.label}</span>
               <span className="absolute -bottom-2 left-0 h-0.5 transition-all bg-[var(--color-primary)]" style={{ width: activeSection === link.to ? '100%' : '0%', transitionDuration: 'var(--transition-default)' }}></span>
-            </Link>
+            </ScrollLink>
           ))}
-          <Link to="portals" smooth={true} duration={500} offset={-70}>
-            <button className="btn-primary" style={{ padding: '12px 28px', marginLeft: '8px' }}>
-              Login
-            </button>
-          </Link>
+          <button 
+            onClick={() => navigate('/login/learner')}
+            className="btn-primary" 
+            style={{ padding: '12px 28px', marginLeft: '8px' }}
+          >
+            Login
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
@@ -105,7 +109,7 @@ const Navbar = () => {
             className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-gray-100 flex flex-col py-6 px-8"
           >
             {navLinks.map((link) => (
-              <Link
+              <ScrollLink
                 key={link.to}
                 to={link.to}
                 smooth={true}
@@ -116,7 +120,7 @@ const Navbar = () => {
                 style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: activeSection === link.to ? 'var(--color-primary)' : 'var(--text-main)' }}
               >
                 {link.label}
-              </Link>
+              </ScrollLink>
             ))}
           </motion.div>
         )}

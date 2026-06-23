@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { BookOpen, Users, Building2, ArrowRight, CheckCircle2 } from 'lucide-react';
-import LoginModal from '../LoginModal/LoginModal';
 import { PORTALS } from '../../utils/constants';
 
 const PortalSelection = () => {
-  const [activeModal, setActiveModal] = useState(null);
+  const navigate = useNavigate();
 
   const portals = [
     {
@@ -59,7 +59,7 @@ const PortalSelection = () => {
             <motion.div 
               key={portal.id}
               className="card-base group overflow-hidden cursor-pointer flex flex-col relative"
-              onClick={() => setActiveModal(portal)}
+              onClick={() => navigate(`/login/${portal.id.toLowerCase()}`)}
             >
               {/* Highlight Gradient on Hover */}
               <div className="absolute top-0 left-0 w-full h-2 bg-[var(--color-primary)] opacity-0 group-hover:opacity-100 transition-opacity" style={{ transitionDuration: 'var(--transition-default)' }}></div>
@@ -97,13 +97,6 @@ const PortalSelection = () => {
           ))}
         </motion.div>
       </div>
-
-      {activeModal && (
-        <LoginModal 
-          portal={activeModal} 
-          onClose={() => setActiveModal(null)} 
-        />
-      )}
     </section>
   );
 };
