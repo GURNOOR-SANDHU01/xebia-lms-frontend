@@ -1,28 +1,27 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import './App.css'; // Global App styles if needed
-import { ROUTES } from './utils/constants';
+import DashboardLayout from './components/Dashboard/DashboardLayout';
+import { AuthProvider, ProtectedRoute } from './context/AuthContext';
+import './App.css';
 
-/**
- * Main App Component.
- * Sets up routing for the entire application.
- * 
- * @returns {JSX.Element} The root App component.
- */
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen bg-background text-text-main font-sans antialiased">
+    <AuthProvider>
+      <BrowserRouter>
         <Routes>
-          <Route path={ROUTES.HOME} element={<LandingPage />} />
-          {/* Future Routes:
-          <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-          <Route path={ROUTES.LOGIN} element={<Login />} />
-          */}
+          <Route path="/" element={<LandingPage />} />
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
-      </div>
-    </Router>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

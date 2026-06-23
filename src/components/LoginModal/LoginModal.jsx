@@ -1,124 +1,139 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { X, Lock, Mail, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Lock, Mail } from 'lucide-react';
-import { AuthRepository } from '../../services/authRepository';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginModal = ({ portal, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const { login } = useAuth();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = 'auto'; };
-  }, []);
-
-  const handleSubmit = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      // Simulate SOLID DIP via AuthRepository
-      const data = await AuthRepository.login({ email, password, portalId: portal.id });
-      console.log('Login successful', data);
-      alert(`Successfully logged into ${portal.title}`);
-      onClose();
-    } catch (err) {
-      setError('Invalid credentials. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+    setIsLoading(true);
+    
+    // Simulate network delay for effect
+    setTimeout(() => {
+      setIsLoading(false);
+      // Log the user in with their portal role
+      login(portal.id, 'Eureka');
+      // Redirect to the dashboard
+      navigate('/dashboard');
+    }, 800);
   };
 
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        {/* Overlay */}
         <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
           onClick={onClose}
-          className="absolute inset-0 bg-black bg-opacity-60 transition-opacity"
-        />
-
-        {/* Modal Content */}
+        ></motion.div>
+        
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-md bg-white rounded-xl shadow-2xl overflow-hidden z-10"
+          className="relative w-full max-w-md bg-white shadow-2xl overflow-hidden"
+          style={{ borderRadius: 'var(--radius-lg)' }}
         >
-          {/* Header */}
-          <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-gray-50">
-            <h3 className="text-xl font-bold text-[var(--color-dark)]">{portal.title} Login</h3>
-            <button 
-              onClick={onClose}
-              className="p-1 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-200 transition-colors"
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          {/* Body */}
-          <div className="p-6">
-            {error && (
-              <div className="mb-4 p-3 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm">
-                {error}
-              </div>
-            )}
-            <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Top colored bar */}
+          <div className={`w-full h-2 bg-gradient-to-r ${portal.gradient}`}></div>
+          
+          <button 
+            onClick={onClose}
+            className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors"
+            style={{ borderRadius: 'var(--radius-sm)' }}
+          >
+            <X size={20} />
+          </button>
+          
+          <div className="p-8">
+            <div className={`w-14 h-14 bg-gray-50 flex items-center justify-center mb-6 ${portal.color}`} style={{ borderRadius: 'var(--radius-sm)' }}>
+              {portal.icon}
+            </div>
+            
+            <h3 style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--text-main)', marginBottom: '8px' }}>
+              Welcome back
+            </h3>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-muted)', marginBottom: '32px' }}>
+              Sign in to your {portal.title} account
+            </p>
+            
+            <form onSubmit={handleLogin} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <label className="block mb-2 font-semibold text-[var(--text-main)]" style={{ fontSize: 'var(--text-sm)' }}>Email Address</label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail size={18} className="text-gray-400" />
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                    <Mail size={18} />
                   </div>
                   <input 
                     type="email" 
-                    required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] text-sm"
-                    placeholder="you@example.com"
+                    required
+                    className="input-base pl-11"
+                    placeholder="name@organization.com"
                   />
                 </div>
               </div>
-
+              
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="font-semibold text-[var(--text-main)]" style={{ fontSize: 'var(--text-sm)' }}>Password</label>
+                  <a href="#" className={`text-sm font-bold hover:underline ${portal.color}`}>Forgot password?</a>
+                </div>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock size={18} className="text-gray-400" />
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                    <Lock size={18} />
                   </div>
                   <input 
                     type="password" 
-                    required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-[var(--color-primary)] focus:border-[var(--color-primary)] text-sm"
+                    required
+                    className="input-base pl-11"
                     placeholder="••••••••"
                   />
                 </div>
               </div>
-
-              <div className="flex items-center justify-between text-sm">
-                <label className="flex items-center">
-                  <input type="checkbox" className="rounded border-gray-300 text-[var(--color-primary)] focus:ring-[var(--color-primary)] mr-2" />
-                  <span className="text-gray-600">Remember me</span>
-                </label>
-                <a href="#" className="text-[var(--color-primary)] hover:underline font-medium">Forgot password?</a>
-              </div>
-
+              
               <button 
                 type="submit" 
-                disabled={loading}
-                className={`w-full py-2.5 px-4 mt-6 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[var(--color-primary)] hover:bg-[var(--color-dark)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--color-primary)] transition-colors ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                disabled={isLoading}
+                className="w-full flex items-center justify-center gap-2 text-white font-bold transition-all shadow-md mt-6"
+                style={{ 
+                  background: `linear-gradient(to right, var(--tw-gradient-stops))`,
+                  padding: '16px 32px',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: 'var(--text-base)',
+                  opacity: isLoading ? 0.7 : 1
+                }}
+                className={`w-full flex items-center justify-center gap-2 text-white font-bold transition-all shadow-md mt-6 bg-gradient-to-r ${portal.gradient}`}
               >
-                {loading ? 'Authenticating...' : 'Sign In'}
+                {isLoading ? (
+                  <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                ) : (
+                  <>
+                    Sign In
+                    <ArrowRight size={20} />
+                  </>
+                )}
               </button>
             </form>
+          </div>
+          
+          <div className="px-8 py-5 bg-[var(--bg-secondary)] border-t border-gray-100 text-center">
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)' }}>
+              Don't have an account? <a href="#" className={`font-bold hover:underline ${portal.color}`}>Contact your administrator</a>
+            </p>
           </div>
         </motion.div>
       </div>
