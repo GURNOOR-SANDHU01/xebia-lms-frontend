@@ -25,10 +25,7 @@ const Hero = () => {
           animate="visible"
           className="flex-1 text-center lg:text-left flex flex-col items-center lg:items-start"
         >
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-2 bg-[var(--bg-secondary)] border border-gray-200 shadow-sm" style={{ borderRadius: 'var(--radius-full)', marginBottom: '40px' }}>
-            <span className="w-2 h-2 rounded-full bg-[var(--color-accent)] animate-pulse"></span>
-            <span className="text-[var(--text-sm)] font-bold text-[var(--text-main)] uppercase tracking-wider">Next Generation Learning</span>
-          </motion.div>
+          
           
           <motion.h1 variants={itemVariants} style={{ fontSize: 'var(--text-3xl)', fontWeight: 800, lineHeight: 1.1, marginBottom: '24px' }}>
             Empowering <br className="hidden md:block"/>
