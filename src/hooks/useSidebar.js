@@ -1,0 +1,1 @@
+// useSidebar.js module
