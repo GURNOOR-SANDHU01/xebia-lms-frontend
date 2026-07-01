@@ -30,7 +30,7 @@ const FloatingInput = ({ id, label, type = "text", rows }) => {
 
 export const ContactSection = () => {
   return (
-    <section className="py-[120px] bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300">
+    <section id="contact" className="py-[120px] bg-white dark:bg-gray-900 relative overflow-hidden transition-colors duration-300">
       <Container className="relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[64px] lg:gap-[120px] items-center">
           

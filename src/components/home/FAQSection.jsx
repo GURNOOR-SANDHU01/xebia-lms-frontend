@@ -23,7 +23,7 @@ export const FAQSection = () => {
   );
 
   return (
-    <section className="py-[120px] bg-xebia-bg dark:bg-gray-900 relative z-10 transition-colors duration-300">
+    <section id="faq" className="py-[120px] bg-xebia-bg dark:bg-gray-900 relative z-10 transition-colors duration-300">
       <Container className="max-w-[800px]">
         {/* Header */}
         <div className="text-center mb-[48px]">

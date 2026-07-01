@@ -12,8 +12,8 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Login', path: '/auth/login' },
-    { name: "FAQ's", path: '/faq' },
-    { name: 'Contact', path: '/contact' },
+    { name: "FAQ's", path: '/#faq' },
+    { name: 'Contact', path: '/#contact' },
   ];
 
   return (
